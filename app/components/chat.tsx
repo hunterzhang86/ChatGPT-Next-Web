@@ -696,7 +696,31 @@ function _Chat() {
     }
   };
 
-  const doSubmit = (userInput: string) => {
+  const checkPermission = async () => {
+    // 从 URL 中获取参数值
+    const urlParams = new URLSearchParams(window.location.search);
+    const namespace = urlParams.get('namespace') ?? '';
+    const token = urlParams.get('token');
+    
+    const headers = new Headers();
+    headers.append('Namespace', namespace);
+    headers.append('Authorization', "Bearer " + token);
+    
+    const response = await fetch('https://www.fflow.link/auth/api/v1/currentUser', {
+      method: 'GET',
+      headers: headers, // 将标头添加到请求中
+    });
+
+    return response && response.status === 200;
+  }
+
+  const doSubmit = async (userInput: string) => {
+    if(await checkPermission() === false) {
+      window.open("https://www.fflow.link/#/user/login", "_self");
+      console.log("no permission");
+      return;
+    }
+
     if (userInput.trim() === "") return;
     const matchCommand = chatCommands.match(userInput);
     if (matchCommand.matched) {
