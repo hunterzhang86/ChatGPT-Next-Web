@@ -706,7 +706,7 @@ function _Chat() {
     headers.append('Namespace', namespace);
     headers.append('Authorization', "Bearer " + token);
     
-    const response = await fetch('/auth/api/v1/currentUser', {
+    const response = await fetch('https://www.fflow.link/auth/api/v1/currentUser', {
       method: 'GET',
       headers: headers, // 将标头添加到请求中
     });
