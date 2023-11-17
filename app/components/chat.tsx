@@ -699,6 +699,7 @@ function _Chat() {
   const checkPermission = async () => {
     const response = await fetch('https://www.fflow.link/auth/api/v1/currentUser', {
       method: 'GET',
+      credentials: 'include', // 设置为包含Cookie
     });
   
     return response && response.status === 200;
